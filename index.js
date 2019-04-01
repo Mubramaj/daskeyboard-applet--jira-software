@@ -86,8 +86,9 @@ class Jira extends q.DesktopApp {
       apiKey: this.authorization.apiKey
     });
 
-    return Promise.all(proxyRequest.getOauth2ProxyToken()).then((token)=>{
+    return proxyRequest.getOauth2ProxyToken().then((token)=>{
       logger.info("This is the token!!!!!!!!! ", token)
+      return null;
     })
 
   }
