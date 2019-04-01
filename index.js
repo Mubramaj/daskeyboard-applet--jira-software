@@ -41,11 +41,6 @@ class Jira extends q.DesktopApp {
     return this.oauth2ProxyRequest(proxyRequest).then(config => {
       logger.info("This is the config: ", config);
       logger.info("This is the stringify config: ", JSON.stringify(config));
-    }).catch(error => {
-      const message = error.statusCode == 402
-        ? 'Payment required. This applet requires a premium Jira account.' : error;
-      logger.error(`Sending error signal: ${message}`);
-      throw new Error(message);
     });
 
   }
