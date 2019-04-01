@@ -63,33 +63,33 @@ class Jira extends q.DesktopApp {
 
     // V2
 
-    // // Get the cloudid for your site
-    // const proxyRequest = new q.Oauth2ProxyRequest({
-    //   apiKey: this.authorization.apiKey,
-    //   uri: queryUrlBase + query,
-    //   method: 'GET',
+    // Get the cloudid for your site
+    const proxyRequest = new q.Oauth2ProxyRequest({
+      apiKey: this.authorization.apiKey,
+      uri: queryUrlBase + query,
+      method: 'GET',
 
-    // });
+    });
 
-    // // return this.oauth2ProxyRequest(proxyRequest);
+    // return this.oauth2ProxyRequest(proxyRequest);
 
-    // return this.oauth2ProxyRequest(proxyRequest).then(config => {
-    //   logger.info("This is the config: ", config);
-    //   logger.info("This is the stringify config: ", JSON.stringify(config));
+    return this.oauth2ProxyRequest(proxyRequest).then(config => {
+      logger.info("This is the config: "+ config);
+      logger.info("This is the stringify config: "+ JSON.stringify(config));
 
-    //   return null;
-    // });
+      return null;
+    });
 
     // V3
 
-    const proxyRequest = new q.Oauth2ProxyRequest({
-      apiKey: this.authorization.apiKey
-    });
+    // const proxyRequest = new q.Oauth2ProxyRequest({
+    //   apiKey: this.authorization.apiKey
+    // });
 
-    return proxyRequest.getOauth2ProxyToken().then((token)=>{
-      logger.info("This is the token!!!!!!!!! " + JSON.stringify(token));
-      return null;
-    })
+    // return proxyRequest.getOauth2ProxyToken().then((token)=>{
+    //   logger.info("This is the token!!!!!!!!! " + JSON.stringify(token));
+    //   return null;
+    // })
 
   }
 
