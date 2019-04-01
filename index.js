@@ -38,10 +38,12 @@ class Jira extends q.DesktopApp {
       uri: queryUrlBase + query
     });
 
-    return this.oauth2ProxyRequest(proxyRequest).then(config => {
-      logger.info("This is the config: ", config);
-      logger.info("This is the stringify config: ", JSON.stringify(config));
-    });
+    return this.oauth2ProxyRequest(proxyRequest);
+
+    // return this.oauth2ProxyRequest(proxyRequest).then(config => {
+    //   logger.info("This is the config: ", config);
+    //   logger.info("This is the stringify config: ", JSON.stringify(config));
+    // });
 
   }
 
