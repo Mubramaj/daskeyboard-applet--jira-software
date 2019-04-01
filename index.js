@@ -1,4 +1,5 @@
 const q = require('daskeyboard-applet');
+const request = require('request-promise');
 
 const logger = q.logger;
 const queryUrlBase = 'https://api.atlassian.com/';
