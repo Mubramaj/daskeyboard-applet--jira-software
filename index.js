@@ -76,7 +76,8 @@ class Jira extends q.DesktopApp {
     return this.oauth2ProxyRequest(proxyRequest).then(config => {
       logger.info("This is the config: "+ config);
       logger.info("This is the stringify config: "+ JSON.stringify(config));
-
+      // Get cloudId for requests
+      // https://developer.atlassian.com/cloud/jira/platform/oauth-2-authorization-code-grants-3lo-for-apps/
       return null;
     });
 
