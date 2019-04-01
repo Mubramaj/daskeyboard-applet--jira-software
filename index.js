@@ -27,27 +27,30 @@ class Jira extends q.DesktopApp {
   }
 
   async applyConfig() {
+    logger.info("=================")
 
     logger.info("Initialisation.")
 
     const query = "oauth/token/accessible-resources";
 
     // Get the cloudid for your site
-    // const proxyRequest = new q.Oauth2ProxyRequest({
-    //   apiKey: this.authorization.apiKey,
-    //   uri: queryUrlBase + query
-    // });
+    const proxyRequest = new q.Oauth2ProxyRequest({
+      apiKey: this.authorization.apiKey,
+      uri: queryUrlBase + query
+    });
 
     // return this.oauth2ProxyRequest(proxyRequest);
 
-    // return this.oauth2ProxyRequest(proxyRequest).then(config => {
-    //   logger.info("This is the config: ", config);
-    //   logger.info("This is the stringify config: ", JSON.stringify(config));
-    // });
+    return this.oauth2ProxyRequest(proxyRequest).then(config => {
+      logger.info("This is the config: ", config);
+      logger.info("This is the stringify config: ", JSON.stringify(config));
+
+      return null;
+    });
 
   }
 
-  async getMessages() {
+  async getNotifications() {
     // Get messages from the conversations (check email)
     // https://api.jira.com/methods/conversations.history
 
@@ -61,13 +64,15 @@ class Jira extends q.DesktopApp {
     });
 
     // first get the user projects
-    return this.oauth2ProxyRequest(proxyRequest);
+    // return this.oauth2ProxyRequest(proxyRequest);
+
+    return null;
   }
 
   async run() {
     console.log("Running.");
     return this.getMessages().then(newMessages => {
-      this.timestamp = getTimestamp();
+      // this.timestamp = getTimestamp();
       logger.info("This is the response", newMessages);
       if (newMessages && newMessages.length > 0) {
 
