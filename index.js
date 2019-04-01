@@ -27,11 +27,37 @@ class Jira extends q.DesktopApp {
   }
 
   async applyConfig() {
-    logger.info("=================")
+    logger.info("=================");
 
-    logger.info("Initialisation.")
+    logger.info("Initialisation.");
 
     const query = "oauth/token/accessible-resources";
+
+    this.serviceHeaders = {
+      "Accept": "application/json",
+      "Authentication": `Bearer ${this.authorization.apiKey}`,
+    }
+
+    return request.get({
+      url: queryUrlBase + query,
+      headers: this.serviceHeaders,
+      json: true
+    }).then((body) => {
+
+      logger.info("This is the config: ", body);
+      logger.info("This is the stringify config: ", JSON.stringify(body));
+
+      return null;
+
+    })
+      .catch(error => {
+        logger.error(
+          `Got error sending request to service: ${JSON.stringify(error)}`);
+        return q.Signal.error([
+          'The ZenHub service returned an error. Please check your API key and account.',
+          `Detail: ${error.message}`]);
+    });
+
 
     // Get the cloudid for your site
     const proxyRequest = new q.Oauth2ProxyRequest({
@@ -40,6 +66,8 @@ class Jira extends q.DesktopApp {
       method: 'GET',
 
     });
+
+
 
     // return this.oauth2ProxyRequest(proxyRequest);
 
