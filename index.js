@@ -33,12 +33,12 @@ class Jira extends q.DesktopApp {
     const query = "oauth/token/accessible-resources";
 
     // Get the cloudid for your site
-    const proxyRequest = new q.Oauth2ProxyRequest({
-      apiKey: this.authorization.apiKey,
-      uri: queryUrlBase + query
-    });
+    // const proxyRequest = new q.Oauth2ProxyRequest({
+    //   apiKey: this.authorization.apiKey,
+    //   uri: queryUrlBase + query
+    // });
 
-    return this.oauth2ProxyRequest(proxyRequest);
+    // return this.oauth2ProxyRequest(proxyRequest);
 
     // return this.oauth2ProxyRequest(proxyRequest).then(config => {
     //   logger.info("This is the config: ", config);
