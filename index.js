@@ -1,7 +1,7 @@
 const q = require('daskeyboard-applet');
 
 const logger = q.logger;
-const queryUrlBase = 'https://jira.com/api/';
+const queryUrlBase = 'https://api.atlassian.com/';
 
 function getTimestamp() {
   var d = new Date(Date.now()),
@@ -30,8 +30,23 @@ class Jira extends q.DesktopApp {
 
     logger.info("Initialisation.")
 
-    // Get conversations
-    // https://api.jira.com/methods/conversations.list
+    const query = "oauth/token/accessible-resources";
+
+    // Get the cloudid for your site
+    const proxyRequest = new q.Oauth2ProxyRequest({
+      apiKey: this.authorization.apiKey,
+      uri: queryUrlBase + query
+    });
+
+    return this.oauth2ProxyRequest(proxyRequest).then(config => {
+      logger.info("This is the config: ", config);
+      logger.info("This is the stringify config: ", JSON.stringify(config));
+    }).catch(error => {
+      const message = error.statusCode == 402
+        ? 'Payment required. This applet requires a premium Jira account.' : error;
+      logger.error(`Sending error signal: ${message}`);
+      throw new Error(message);
+    });
 
   }
 
