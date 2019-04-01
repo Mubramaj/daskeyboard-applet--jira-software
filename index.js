@@ -36,10 +36,14 @@ class Jira extends q.DesktopApp {
     // Get the cloudid for your site
     const proxyRequest = new q.Oauth2ProxyRequest({
       apiKey: this.authorization.apiKey,
-      uri: queryUrlBase + query
+      uri: queryUrlBase + query,
+      method: 'GET',
+
     });
 
     // return this.oauth2ProxyRequest(proxyRequest);
+
+    // proxyRequest.ge
 
     return this.oauth2ProxyRequest(proxyRequest).then(config => {
       logger.info("This is the config: ", config);
@@ -71,7 +75,7 @@ class Jira extends q.DesktopApp {
 
   async run() {
     console.log("Running.");
-    return this.getMessages().then(newMessages => {
+    return this.getNotifications().then(newMessages => {
       // this.timestamp = getTimestamp();
       logger.info("This is the response", newMessages);
       if (newMessages && newMessages.length > 0) {
