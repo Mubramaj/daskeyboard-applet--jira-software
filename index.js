@@ -87,7 +87,7 @@ class Jira extends q.DesktopApp {
     });
 
     return proxyRequest.getOauth2ProxyToken().then((token)=>{
-      logger.info("This is the token!!!!!!!!! ", token)
+      logger.info("This is the token!!!!!!!!! " + token)
       return null;
     })
 
