@@ -2,7 +2,7 @@ const q = require('daskeyboard-applet');
 const request = require('request-promise');
 
 const logger = q.logger;
-const queryUrlBase = 'https://api.atlassian.com/';
+const queryUrlBase = 'https://api.atlassian.com';
 
 function getTimestamp() {
   var d = new Date(Date.now()),
@@ -32,54 +32,63 @@ class Jira extends q.DesktopApp {
 
     logger.info("Initialisation.");
 
-    const query = "oauth/token/accessible-resources";
+    const query = "/oauth/token/accessible-resources";
 
-    this.serviceHeaders = {
-      "Accept": "application/json",
-      "Authentication": `Bearer ${this.authorization.apiKey}`,
-    }
+    // V1
 
-    return request.get({
-      url: queryUrlBase + query,
-      headers: this.serviceHeaders,
-      json: true
-    }).then((body) => {
+    // this.serviceHeaders = {
+    //   "Accept": "application/json",
+    //   "Authentication": `Bearer ${this.authorization.apiKey}`,
+    // }
 
-      logger.info("This is the config: ", body);
-      logger.info("This is the stringify config: ", JSON.stringify(body));
+    // return request.get({
+    //   url: queryUrlBase + query,
+    //   headers: this.serviceHeaders,
+    //   json: true
+    // }).then((body) => {
 
-      return null;
+    //   logger.info("This is the config: ", body);
+    //   logger.info("This is the stringify config: ", JSON.stringify(body));
 
-    })
-      .catch(error => {
-        logger.error(
-          `Got error sending request to service: ${JSON.stringify(error)}`);
-        return q.Signal.error([
-          'The ZenHub service returned an error. Please check your API key and account.',
-          `Detail: ${error.message}`]);
-    });
+    //   return null;
 
+    // })
+    //   .catch(error => {
+    //     logger.error(
+    //       `Got error sending request to service: ${JSON.stringify(error)}`);
+    //     return q.Signal.error([
+    //       'The ZenHub service returned an error. Please check your API key and account.',
+    //       `Detail: ${error.message}`]);
+    // });
 
-    // Get the cloudid for your site
+    // V2
+
+    // // Get the cloudid for your site
+    // const proxyRequest = new q.Oauth2ProxyRequest({
+    //   apiKey: this.authorization.apiKey,
+    //   uri: queryUrlBase + query,
+    //   method: 'GET',
+
+    // });
+
+    // // return this.oauth2ProxyRequest(proxyRequest);
+
+    // return this.oauth2ProxyRequest(proxyRequest).then(config => {
+    //   logger.info("This is the config: ", config);
+    //   logger.info("This is the stringify config: ", JSON.stringify(config));
+
+    //   return null;
+    // });
+
+    // V3
+
     const proxyRequest = new q.Oauth2ProxyRequest({
-      apiKey: this.authorization.apiKey,
-      uri: queryUrlBase + query,
-      method: 'GET',
-
+      apiKey: this.authorization.apiKey
     });
 
-
-
-    // return this.oauth2ProxyRequest(proxyRequest);
-
-    // proxyRequest.ge
-
-    return this.oauth2ProxyRequest(proxyRequest).then(config => {
-      logger.info("This is the config: ", config);
-      logger.info("This is the stringify config: ", JSON.stringify(config));
-
-      return null;
-    });
+    return Promise.all(proxyRequest.getOauth2ProxyToken()).then((token)=>{
+      logger.info("This is the token!!!!!!!!! ", token)
+    })
 
   }
 
@@ -91,10 +100,16 @@ class Jira extends q.DesktopApp {
     // const query = "search.messages?query=pickleface&sort=timestamp&pretty=1";
     const query = "search.messages?query=pickleface&sort=timestamp";
 
-    const proxyRequest = new q.Oauth2ProxyRequest({
-      apiKey: this.authorization.apiKey,
-      uri: queryUrlBase + query
-    });
+    // const proxyRequest = new q.Oauth2ProxyRequest({
+    //   apiKey: this.authorization.apiKey
+    // });
+
+    // return proxyRequest.getOauth2ProxyToken().then(token => {
+    //   console.log('TOOOKKEENN', token);
+    // }).catch(err => {
+    //   // TODO handle error
+    // })
+    
 
     // first get the user projects
     // return this.oauth2ProxyRequest(proxyRequest);
