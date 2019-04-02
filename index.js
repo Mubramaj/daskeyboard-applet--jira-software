@@ -15,6 +15,22 @@ function getTimestamp() {
   return [year, month, day].join('-');
 }
 
+async function processProjectsResponse(response) {
+  logger.info(`Processing Jira repos response`);
+  const options = [];
+  response.forEach(project => {
+    options.push({
+      key: project.id.toString(),
+      value: project.name.toString()
+    });
+  });
+  logger.info(`got ${options.length} options`);
+  options.forEach(o => logger.info(`${o.key}: ${o.value}`));
+  return options;
+
+
+}
+
 class Jira extends q.DesktopApp {
   constructor() {
     super();
@@ -56,6 +72,37 @@ class Jira extends q.DesktopApp {
 
   }
 
+  /**
+  * Loads the list of projects
+  */
+  async  loadProjects() {
+    logger.info(`Loading projects`);
+    const query = "/oauth/token/accessible-resources";
+
+    const proxyRequest = new q.Oauth2ProxyRequest({
+      apiKey: this.authorization.apiKey,
+      uri: `https://api.atlassian.com/ex/jira/${this.cloudId}/rest/api/3/project`,
+      method: 'GET',
+    });
+
+    return this.oauth2ProxyRequest(proxyRequest);
+  }
+
+  /**
+  * Called from the Das Keyboard Q software to retrieve the options to display for
+  * the user inputs
+  * @param {} fieldId 
+  * @param {*} search 
+  */
+  async options(fieldId, search) {
+    return this.loadProjects().then(body => {
+      logger.info("This is your projects"+JSON.stringify(body));
+      return processProjectsResponse(body);
+    }).catch(error => {
+      logger.error(`Caught error when loading options: ${error}`);
+    });
+  }
+
   async getAllProjects() {
     // Get messages from the conversations (check email)
     // https://api.jira.com/methods/conversations.history
@@ -82,10 +129,13 @@ class Jira extends q.DesktopApp {
   }
 
   async run() {
-    console.log("Running.");
+    logger.info("Running.");
+    const projectId = this.config.repoId;
+    logger.info("This is the project Id: "+projectId);
+
     return this.getAllProjects().then(allProjects => {
       // this.timestamp = getTimestamp();
-      logger.info("This is your projects: " + JSON.stringify(allProjects));
+      // logger.info("This is nothing: " + JSON.stringify(allProjects));
       //if (newMessages && newMessages.length > 0) {
       if (false){
 
@@ -123,7 +173,8 @@ class Jira extends q.DesktopApp {
 
 
 module.exports = {
-  Jira: Jira
+  Jira: Jira,
+  processProjectsResponse: processProjectsResponse
 }
 
 const applet = new Jira();

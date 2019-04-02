@@ -42,14 +42,14 @@
     },
     "questions": [
       {
-        "key": "channels",
-        "label": "Add channel",
-        "help": "Notify each time a new message from the channels listed bellow arrives",
+        "key": "repoId",
+        "label": "Choose a project to track",
+        "help": "select a location from the list",
         "required": true,
-        "placeholder": "general",
         "order": 1,
-        "controlType": "textbox",
-        "isArray": true
+        "controlType": "dropdown",
+        "dynamic": true,
+        "options": []
       },
       {
         "key": "color",
