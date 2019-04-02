@@ -130,7 +130,7 @@ class Jira extends q.DesktopApp {
 
   async run() {
     logger.info("Running.");
-    const projectId = this.config.repoId;
+    const projectId = this.config.projectId;
     logger.info("This is the project Id: "+projectId);
 
     return this.getAllProjects().then(allProjects => {

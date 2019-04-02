@@ -42,7 +42,7 @@
     },
     "questions": [
       {
-        "key": "repoId",
+        "key": "projectId",
         "label": "Choose a project to track",
         "help": "select a location from the list",
         "required": true,
