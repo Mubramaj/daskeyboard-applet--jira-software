@@ -61,8 +61,8 @@ class Jira extends q.DesktopApp {
       logger.info("This is the stringify config: "+ JSON.stringify(config));
       // Get account properties for requests
       this.cloudId = config[0].id;
-      this.myDomain = config[1].name;
-      this.myAvatarUrl = config.avatarUrl;
+      this.myDomain = config[0].name;
+      this.myAvatarUrl = config[0].avatarUrl;
       logger.info("This is the cloudID: "+ this.cloudId);
       logger.info("This is the myDomain: "+ this.myDomain);
       logger.info("This is the myAvatarUrl: "+ this.myAvatarUrl);
