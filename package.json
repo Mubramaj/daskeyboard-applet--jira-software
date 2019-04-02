@@ -30,8 +30,7 @@
   },
   "author": "Das Keyboard",
   "dependencies": {
-    "daskeyboard-applet": "2.11.3",
-    "request-promise": "^4.2.4"
+    "daskeyboard-applet": "2.11.3"
   },
   "qConfig": {
     "geometry": {
