@@ -1,5 +1,4 @@
 const q = require('daskeyboard-applet');
-const request = require('request-promise');
 
 const logger = q.logger;
 const queryUrlBase = 'https://api.atlassian.com';
@@ -34,36 +33,6 @@ class Jira extends q.DesktopApp {
 
     const query = "/oauth/token/accessible-resources";
 
-    // V1
-
-    // this.serviceHeaders = {
-    //   "Accept": "application/json",
-    //   "Authentication": `Bearer ${this.authorization.apiKey}`,
-    // }
-
-    // return request.get({
-    //   url: queryUrlBase + query,
-    //   headers: this.serviceHeaders,
-    //   json: true
-    // }).then((body) => {
-
-    //   logger.info("This is the config: ", body);
-    //   logger.info("This is the stringify config: ", JSON.stringify(body));
-
-    //   return null;
-
-    // })
-    //   .catch(error => {
-    //     logger.error(
-    //       `Got error sending request to service: ${JSON.stringify(error)}`);
-    //     return q.Signal.error([
-    //       'The ZenHub service returned an error. Please check your API key and account.',
-    //       `Detail: ${error.message}`]);
-    // });
-
-    // V2
-
-    // Get the cloudid for your site
     const proxyRequest = new q.Oauth2ProxyRequest({
       apiKey: this.authorization.apiKey,
       uri: queryUrlBase + query,
@@ -71,30 +40,23 @@ class Jira extends q.DesktopApp {
 
     });
 
-    // return this.oauth2ProxyRequest(proxyRequest);
-
     return this.oauth2ProxyRequest(proxyRequest).then(config => {
       logger.info("This is the config: "+ config);
       logger.info("This is the stringify config: "+ JSON.stringify(config));
-      // Get cloudId for requests
-      // https://developer.atlassian.com/cloud/jira/platform/oauth-2-authorization-code-grants-3lo-for-apps/
+      // Get account properties for requests
+      this.cloudId = config.id;
+      this.myDomain = config.name;
+      this.myAvatarUrl = config.avatarUrl;
+      logger.info("This is the cloudID: "+ this.cloudId);
+      logger.info("This is the myDomain: "+ this.myDomain);
+      logger.info("This is the myAvatarUrl: "+ this.myAvatarUrl);
+
       return null;
     });
 
-    // V3
-
-    // const proxyRequest = new q.Oauth2ProxyRequest({
-    //   apiKey: this.authorization.apiKey
-    // });
-
-    // return proxyRequest.getOauth2ProxyToken().then((token)=>{
-    //   logger.info("This is the token!!!!!!!!! " + JSON.stringify(token));
-    //   return null;
-    // })
-
   }
 
-  async getNotifications() {
+  async getAllProjects() {
     // Get messages from the conversations (check email)
     // https://api.jira.com/methods/conversations.history
 
@@ -121,10 +83,11 @@ class Jira extends q.DesktopApp {
 
   async run() {
     console.log("Running.");
-    return this.getNotifications().then(newMessages => {
+    return this.getAllProjects().then(allProjects => {
       // this.timestamp = getTimestamp();
-      logger.info("This is the response", newMessages);
-      if (newMessages && newMessages.length > 0) {
+      logger.info("This is your projects: " + JSON.stringify(allProjects));
+      //if (newMessages && newMessages.length > 0) {
+      if (false){
 
         if (newMessages.length == 1) {
           this.notification = "notification";
