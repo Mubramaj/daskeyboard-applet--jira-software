@@ -27,12 +27,12 @@ async function processProjectsResponse(response) {
   logger.info(`got ${options.length} options`);
   options.forEach(o => logger.info(`${o.key}: ${o.value}`));
   return options;
-
-
 }
 
 class JiraSoftware extends q.DesktopApp {
+
   constructor() {
+
     super();
     // run every min
     this.pollingInterval = 1 * 60 * 1000;
@@ -40,14 +40,13 @@ class JiraSoftware extends q.DesktopApp {
     this.timestamp = getTimestamp();
     // For checking plural or singular
     this.notification = "";
+    
   }
 
   async applyConfig() {
     logger.info("=================");
 
     logger.info("Initialisation.");
-
-
 
     const query = "/oauth/token/accessible-resources";
 
@@ -68,50 +67,52 @@ class JiraSoftware extends q.DesktopApp {
       logger.info("This is the myDomain: "+ this.myDomain);
       logger.info("This is the myAvatarUrl: "+ this.myAvatarUrl);
 
-      this.serviceHeaders = {
-        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
-        // 'x-app-version': '2019-03-14_02-37_82f225da3a-drawer',
-        // 'accept': 'application/json',
-        'cloudId': `${this.cloudId}`,
-        'direct': true,
-        'includeContent': false
-      }
+      return null;
 
-      // Get initial number of notifications
-      // v1
-      // const proxyRequestNotifications = {
-      //   uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications`,
-      //   headers: this.serviceHeaders,
-      // };
+      // this.serviceHeaders = {
+      //   'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
+      //   // 'x-app-version': '2019-03-14_02-37_82f225da3a-drawer',
+      //   // 'accept': 'application/json',
+      //   'cloudId': `${this.cloudId}`,
+      //   'direct': true,
+      //   'includeContent': false
+      // }
 
-      //v2
-      const proxyRequestNotifications = new q.Oauth2ProxyRequest({
-        apiKey: this.authorization.apiKey,
-        uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications?cloudId=${this.cloudId}&direct=true&includeContent=true`,
-        method: 'GET',
-        qs: {
-          'cloudId': `${this.cloudId}`,
-          'direct': true,
-          'includeContent': true,
-        }
-      });
+      // // Get initial number of notifications
+      // // v1
+      // // const proxyRequestNotifications = {
+      // //   uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications`,
+      // //   headers: this.serviceHeaders,
+      // // };
 
-      return this.oauth2ProxyRequest(proxyRequestNotifications).then(notifications => {
+      // //v2
+      // const proxyRequestNotifications = new q.Oauth2ProxyRequest({
+      //   apiKey: this.authorization.apiKey,
+      //   uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications?cloudId=${this.cloudId}&direct=true&includeContent=true`,
+      //   method: 'GET',
+      //   qs: {
+      //     'cloudId': `${this.cloudId}`,
+      //     'direct': true,
+      //     'includeContent': true,
+      //   }
+      // });
 
-        logger.info("This is notifications data: "+notifications);
+      // return this.oauth2ProxyRequest(proxyRequestNotifications).then(notifications => {
 
-        for (let notification of notifications){
-          logger.info("This is notification only: "+notification);
-        }
+      //   logger.info("This is notifications data: "+notifications);
 
-        return null;
+      //   for (let notification of notifications){
+      //     logger.info("This is notification only: "+notification);
+      //   }
 
-      }).catch(err => {
-        logger.info(`Error while fetching notifications`);
-        logger.info(err);
-        logger.info("This is serviceHeaders: "+ JSON.stringify(this.serviceHeaders));
-        return null;
-      });
+      //   return null;
+
+      // }).catch(err => {
+      //   logger.info(`Error while fetching notifications`);
+      //   logger.info(err);
+      //   logger.info("This is serviceHeaders: "+ JSON.stringify(this.serviceHeaders));
+      //   return null;
+      // });
 
     });
 
