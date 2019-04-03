@@ -53,7 +53,6 @@ class JiraSoftware extends q.DesktopApp {
       apiKey: this.authorization.apiKey,
       uri: queryUrlBase + query,
       method: 'GET',
-
     });
 
     return this.oauth2ProxyRequest(proxyRequest).then(config => {
@@ -67,7 +66,24 @@ class JiraSoftware extends q.DesktopApp {
       logger.info("This is the myDomain: "+ this.myDomain);
       logger.info("This is the myAvatarUrl: "+ this.myAvatarUrl);
 
-      return null;
+      // Get initial number of notifications
+      const proxyRequestNotifications = new q.Oauth2ProxyRequest({
+        apiKey: this.authorization.apiKey,
+        uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications?cloudId=${this.cloudId}&direct=true&includeContent=true`,
+        method: 'GET',
+      });
+
+      return this.oauth2ProxyRequest(proxyRequestNotifications).then(notifications => {
+
+        logger.info("This is notifications data: "+notifications);
+
+        for (let notification of notifications){
+          logger.info("This is notification only: "+notification);
+        }
+
+        return null;
+
+      });
     });
 
   }
