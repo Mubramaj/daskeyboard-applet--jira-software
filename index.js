@@ -1,5 +1,5 @@
 const q = require('daskeyboard-applet');
-
+const request = require('request-promise');
 const logger = q.logger;
 const queryUrlBase = 'https://api.atlassian.com';
 
@@ -68,12 +68,11 @@ class JiraSoftware extends q.DesktopApp {
 
       // Get initial number of notifications
       const proxyRequestNotifications = new q.Oauth2ProxyRequest({
-        apiKey: this.authorization.apiKey,
         uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications?cloudId=${this.cloudId}&direct=true&includeContent=true`,
-        method: 'GET',
+        json: true
       });
 
-      return this.oauth2ProxyRequest(proxyRequestNotifications).then(notifications => {
+      return request.get(proxyRequestNotifications).then(notifications => {
 
         logger.info("This is notifications data: "+notifications);
 
