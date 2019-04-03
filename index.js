@@ -95,6 +95,10 @@ class JiraSoftware extends q.DesktopApp {
 
         return null;
 
+      }).catch(err => {
+        logger.info(`Error while fetching notifications`);
+        logger.info(err);
+        return null;
       });
 
     });
