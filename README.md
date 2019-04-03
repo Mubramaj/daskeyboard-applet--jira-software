@@ -1,12 +1,12 @@
-# Q Applet: Jira
+# Q Applet: Jira Software
 
-Displays Jira account notifications on a Das Keyboard Q Series.
+Displays Jira Software account notifications on a Das Keyboard Q Series.
 
-Jira is a proprietary issue tracking product developed by Atlassian
+Jira Software is a proprietary issue tracking product developed by Atlassian
 that allows bug tracking and agile project management.
-For more information about Jira visit <https://www.atlassian.com/software/jira>.
+For more information about Jira Software visit <https://www.atlassian.com/software/jira>.
 
-![Jira applet on a Das Keyboard Q](assets/image.png "Das Keyboard Jira applet")
+![Jira Software applet on a Das Keyboard Q](assets/image.png "Das Keyboard Jira Software applet")
 
 ## Changelog
 
@@ -14,7 +14,7 @@ For more information about Jira visit <https://www.atlassian.com/software/jira>.
 
 ## Installation
 
-Requires a Das Keyboard Q Series: www.daskeyboard.com and a Jira account.
+Requires a Das Keyboard Q Series: www.daskeyboard.com and an Altassian account.
 
 Installation, configuration and uninstallation of applets is done within
 the Q Desktop application (https://www.daskeyboard.com/q)
