@@ -89,6 +89,11 @@ class JiraSoftware extends q.DesktopApp {
         apiKey: this.authorization.apiKey,
         uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications?cloudId=${this.cloudId}&direct=true&includeContent=true`,
         method: 'GET',
+        qs: {
+          'cloudId': `${this.cloudId}`,
+          'direct': true,
+          'includeContent': true,
+        }
       });
 
       return this.oauth2ProxyRequest(proxyRequestNotifications).then(notifications => {
