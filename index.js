@@ -70,11 +70,11 @@ class JiraSoftware extends q.DesktopApp {
 
       this.serviceHeaders = {
         'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
-        'x-app-version': '2019-03-14_02-37_82f225da3a-drawer',
-        'accept': 'application/json',
+        // 'x-app-version': '2019-03-14_02-37_82f225da3a-drawer',
+        // 'accept': 'application/json',
         'cloudId': `${this.cloudId}`,
-        'direct': 'true',
-        'includeContent':'false'
+        'direct': true,
+        'includeContent': false
       }
 
       // Get initial number of notifications
@@ -96,6 +96,7 @@ class JiraSoftware extends q.DesktopApp {
       }).catch(err => {
         logger.info(`Error while fetching notifications`);
         logger.info(err);
+        logger.info("This is serviceHeaders: "+ JSON.stringify(this.serviceHeaders));
         return null;
       });
 
