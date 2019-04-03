@@ -47,12 +47,7 @@ class JiraSoftware extends q.DesktopApp {
 
     logger.info("Initialisation.");
 
-    this.serviceHeaders = {
-      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
-      'x-app-version': '2019-03-14_02-37_82f225da3a-drawer',
-      'accept': 'application/json',
-      'scheme': 'https'
-    }
+
 
     const query = "/oauth/token/accessible-resources";
 
@@ -73,9 +68,19 @@ class JiraSoftware extends q.DesktopApp {
       logger.info("This is the myDomain: "+ this.myDomain);
       logger.info("This is the myAvatarUrl: "+ this.myAvatarUrl);
 
+      this.serviceHeaders = {
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36',
+        'x-app-version': '2019-03-14_02-37_82f225da3a-drawer',
+        'accept': 'application/json',
+        'scheme': 'https',
+        'cloudId': this.cloudId,
+        'direct': 'true',
+        'includeContent':'false'
+      }
+
       // Get initial number of notifications
       const proxyRequestNotifications = {
-        uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications?cloudId=${this.cloudId}&direct=true&includeContent=true`,
+        uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications`,
         headers: this.serviceHeaders,
         json: true
       };
@@ -91,6 +96,7 @@ class JiraSoftware extends q.DesktopApp {
         return null;
 
       });
+
     });
 
   }
