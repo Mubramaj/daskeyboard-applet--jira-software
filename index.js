@@ -78,12 +78,20 @@ class JiraSoftware extends q.DesktopApp {
       }
 
       // Get initial number of notifications
-      const proxyRequestNotifications = {
-        uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications`,
-        headers: this.serviceHeaders,
-      };
+      // v1
+      // const proxyRequestNotifications = {
+      //   uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications`,
+      //   headers: this.serviceHeaders,
+      // };
 
-      return request.get(proxyRequestNotifications).then(notifications => {
+      //v2
+      const proxyRequestNotifications = new q.Oauth2ProxyRequest({
+        apiKey: this.authorization.apiKey,
+        uri: `https://compagny.atlassian.net/gateway/api/notification-log/api/2/notifications?cloudId=${this.cloudId}&direct=true&includeContent=true`,
+        method: 'GET',
+      });
+
+      return this.oauth2ProxyRequest(proxyRequestNotifications).then(notifications => {
 
         logger.info("This is notifications data: "+notifications);
 
