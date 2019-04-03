@@ -16,7 +16,7 @@ function getTimestamp() {
 }
 
 async function processProjectsResponse(response) {
-  logger.info(`Processing Jira repos response`);
+  logger.info(`Processing Jira Software repos response`);
   const options = [];
   response.forEach(project => {
     options.push({
@@ -31,7 +31,7 @@ async function processProjectsResponse(response) {
 
 }
 
-class Jira extends q.DesktopApp {
+class JiraSoftware extends q.DesktopApp {
   constructor() {
     super();
     // run every min
@@ -152,7 +152,7 @@ class Jira extends q.DesktopApp {
           points: [
             [new q.Point("#0000FF", q.Effects.BLINK)]
           ],
-          name: `Jira`,
+          name: `Jira Software`,
           message: `You have a new notification.`,
           link: {
             url: 'https://jira.com',
@@ -173,8 +173,8 @@ class Jira extends q.DesktopApp {
 
 
 module.exports = {
-  Jira: Jira,
+  JiraSoftware: JiraSoftware,
   processProjectsResponse: processProjectsResponse
 }
 
-const applet = new Jira();
+const applet = new JiraSoftware();
